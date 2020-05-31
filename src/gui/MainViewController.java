@@ -2,9 +2,13 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import application.Main;
+import br.com.trainning.dao.DepartmentDAO;
+import br.com.trainning.util.Conexao;
 import gui.util.Alerts;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,12 +38,17 @@ public class MainViewController implements Initializable{
 
 	@FXML
 	public void onMenuItemDepartmentAction() {
-		loadView("/gui/DepartmentList.fxml");
+		loadView("/gui/DepartmentList.fxml", (DepartmentListController controller) -> {
+			Connection con = Conexao.abrirConexao();
+			controller.setDepartamentoDAO(new DepartmentDAO(con));
+			controller.updateTableView();
+			Conexao.fecharConexao(con);
+		} );
 	}
 
 	@FXML
 	public void onMenuItemAboutAction() {
-		loadView("/gui/About.fxml");
+		loadView("/gui/About.fxml", x -> {});
 	}
 
 
@@ -48,7 +57,7 @@ public class MainViewController implements Initializable{
 		
 	}
 	
-	private synchronized void loadView(String absoluteName) {
+	private synchronized <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			VBox newVBox = loader.load();
@@ -61,7 +70,9 @@ public class MainViewController implements Initializable{
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(newVBox.getChildren());
 
-			
+			/* Executa a funcao passada como argumento acima */
+			T controller = loader.getController();
+			initializingAction.accept(controller);
 			
 		}
 		catch(IOException e){
@@ -70,5 +81,7 @@ public class MainViewController implements Initializable{
 		
 		
 	}
+	
+
 
 }
