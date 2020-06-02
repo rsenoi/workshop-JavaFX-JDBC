@@ -2,12 +2,14 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
 import br.com.trainning.dao.DepartmentDAO;
 import br.com.trainning.model.Department;
+import br.com.trainning.util.Conexao;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
@@ -90,7 +92,7 @@ public class DepartmentListController implements Initializable {
 			DepartmentFormController controller = loader.getController();
 			controller.setDerpartment(obj);
 			controller.updateFormData();
-			
+		
 			
 			Stage dialogStage = new Stage();
 			dialogStage.setTitle("Enter Department data");

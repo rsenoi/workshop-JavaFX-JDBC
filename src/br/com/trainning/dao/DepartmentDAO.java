@@ -149,5 +149,14 @@ public class DepartmentDAO extends ConnectAbstract implements InterfaceDepartmen
 
 	}
 
+	public void saveOrUpdate(Department obj) {
+		if( obj.getId() <= 0) {
+			inserir(obj);
+		}
+		else {
+			alterar(obj);
+		}
+	}
+
 
 }

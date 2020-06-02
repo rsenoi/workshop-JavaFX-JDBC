@@ -17,5 +17,7 @@ public interface InterfaceDepartmentDAO {
     public Department listarUm(Integer Id);
     
     public List<Department> listarTodos();
+
+	void saveOrUpdate(Department obj);
  
 }
