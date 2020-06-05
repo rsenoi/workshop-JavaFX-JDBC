@@ -2,14 +2,12 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import application.Main;
+import br.com.trainning.dao.DataChangeListener;
 import br.com.trainning.dao.DepartmentDAO;
 import br.com.trainning.model.Department;
-import br.com.trainning.util.Conexao;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
@@ -28,9 +26,9 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class DepartmentListController implements Initializable {
-	
-	private DepartmentDAO service;
+public class DepartmentListController implements Initializable, DataChangeListener {
+
+	private DepartmentDAO service ;
 	
 	@FXML
 	private TableView<Department> tableViewDepartment;
@@ -77,11 +75,11 @@ public class DepartmentListController implements Initializable {
 	public void updateTableView() {
 		if(service==null) {
 			throw new IllegalStateException("Service was null");
-		}
+		}	
+		
 		List<Department> list = service.listarTodos();
 		obsList = FXCollections.observableArrayList(list);
 		tableViewDepartment.setItems(obsList);
-		
 	}
 	
 	private void createDialogForm(Department obj, String absoluteName, Stage parentStage) {
@@ -91,6 +89,7 @@ public class DepartmentListController implements Initializable {
 			
 			DepartmentFormController controller = loader.getController();
 			controller.setDerpartment(obj);
+			controller.subscribeDataChangeListener(this);
 			controller.updateFormData();
 		
 			
@@ -107,4 +106,12 @@ public class DepartmentListController implements Initializable {
 		}
 	}
 
+	@Override
+	public void onDataChanged() {
+  
+		//updateTableView();
+
+	}
+
+	
 }

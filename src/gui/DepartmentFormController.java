@@ -1,21 +1,19 @@
 package gui;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-
+import br.com.trainning.dao.DataChangeListener;
 import br.com.trainning.dao.DepartmentDAO;
 import br.com.trainning.model.Department;
 import br.com.trainning.util.Conexao;
-import gui.util.Alerts;
 import gui.util.Constraints;
 import gui.util.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -26,7 +24,9 @@ public class DepartmentFormController implements  Initializable {
 
 	Connection con = Conexao.abrirConexao();
 
-	private DepartmentDAO service = new DepartmentDAO(con);;
+	private DepartmentDAO service = new DepartmentDAO(con);
+	
+	private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
 	
 	@FXML
 	private TextField txtId;
@@ -50,6 +50,10 @@ public class DepartmentFormController implements  Initializable {
 	public void setDepartmentDAO(DepartmentDAO service) {
 		this.service = service;
 	}
+	
+	public void subscribeDataChangeListener(DataChangeListener listener) {
+		dataChangeListeners.add(listener);
+	}
 
 	@FXML
 	public void onBtSaveAction(ActionEvent event) {
@@ -65,9 +69,21 @@ public class DepartmentFormController implements  Initializable {
 		entity = getFormData();
 		service.saveOrUpdate(entity);
 		
+		notifyDataChangeListener();
+
 		Conexao.fecharConexao(con);
-		
+
 		Utils.currentStage(event).close();
+		
+
+	}
+
+	private void notifyDataChangeListener() {
+
+		for (DataChangeListener listener : dataChangeListeners) {
+			listener.onDataChanged();
+		}
+		
 	}
 
 	private Department getFormData() {
