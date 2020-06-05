@@ -4,7 +4,10 @@ import java.net.URL;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
+
 import br.com.trainning.dao.DataChangeListener;
 import br.com.trainning.dao.DepartmentDAO;
 import br.com.trainning.model.Department;
@@ -17,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import model.exception.ValidationException;
 
 public class DepartmentFormController implements  Initializable {
 	
@@ -66,14 +70,19 @@ public class DepartmentFormController implements  Initializable {
 			
 		}
 		
-		entity = getFormData();
-		service.saveOrUpdate(entity);
-		
-		notifyDataChangeListener();
-
-		Conexao.fecharConexao(con);
-
-		Utils.currentStage(event).close();
+		try {
+			entity = getFormData();
+			service.saveOrUpdate(entity);
+			
+			notifyDataChangeListener();
+	
+			Conexao.fecharConexao(con);
+	
+			Utils.currentStage(event).close();
+		}
+		catch(ValidationException e) {
+			setErrorMessages(e.getErrors());
+		}
 		
 
 	}
@@ -88,10 +97,18 @@ public class DepartmentFormController implements  Initializable {
 
 	private Department getFormData() {
 		Department obj = new Department();
+		ValidationException exception = new ValidationException("Validation error");
 		
 		obj.setId(Utils.tryParseToInt(txtId.getText()));
+		
+		if(txtName.getText() == null || txtName.getText().trim().equals("")) {
+			exception.addError("name", "fild can't be empty");
+		}
 		obj.setName(txtName.getText());
 		
+		if(exception.getErrors().size()>0) {
+			throw exception;
+		}
 		return obj;
 	}
 
@@ -120,5 +137,13 @@ public class DepartmentFormController implements  Initializable {
 		
 	}
 	
+	private void setErrorMessages(Map<String, String> error) {
+		Set<String> fields = error.keySet();
+		
+		if(fields.contains("name")) {
+			labelErrorName.setText(error.get("name"));
+		}
+		
+	}
 
 }
