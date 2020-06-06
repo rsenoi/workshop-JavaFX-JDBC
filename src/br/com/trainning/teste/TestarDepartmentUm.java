@@ -1,7 +1,6 @@
 package br.com.trainning.teste;
 
 import java.sql.Connection;
-import java.util.List;
 
 import br.com.trainning.dao.DepartmentDAO;
 import br.com.trainning.model.Department;

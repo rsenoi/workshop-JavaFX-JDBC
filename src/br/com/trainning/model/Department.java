@@ -1,7 +1,7 @@
 package br.com.trainning.model;
 
 import java.io.Serializable;
-import java.sql.Date;
+
 
 public class Department implements Serializable {
 

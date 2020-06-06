@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 
 import application.Main;
 import br.com.trainning.dao.DepartmentDAO;
+import br.com.trainning.dao.SellerDAO;
 import br.com.trainning.util.Conexao;
 import gui.util.Alerts;
 import javafx.fxml.FXML;
@@ -33,7 +34,12 @@ public class MainViewController implements Initializable{
 	
 	@FXML
 	public void onMenuItemSellerAction() {
-		System.out.println("onMenuItemSellerAction");
+		loadView("/gui/SellerList.fxml", (SellerListController controller) -> {
+			Connection con = Conexao.abrirConexao();
+			controller.setSellerDAO(new SellerDAO(con));
+			controller.updateTableView();
+		} );
+
 	}
 
 	@FXML
