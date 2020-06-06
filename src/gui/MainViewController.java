@@ -42,7 +42,6 @@ public class MainViewController implements Initializable{
 			Connection con = Conexao.abrirConexao();
 			controller.setDepartamentoDAO(new DepartmentDAO(con));
 			controller.updateTableView();
-			Conexao.fecharConexao(con);
 		} );
 	}
 
@@ -82,6 +81,5 @@ public class MainViewController implements Initializable{
 		
 	}
 	
-
 
 }

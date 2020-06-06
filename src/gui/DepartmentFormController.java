@@ -76,8 +76,6 @@ public class DepartmentFormController implements  Initializable {
 			
 			notifyDataChangeListener();
 	
-			Conexao.fecharConexao(con);
-	
 			Utils.currentStage(event).close();
 		}
 		catch(ValidationException e) {
@@ -91,6 +89,7 @@ public class DepartmentFormController implements  Initializable {
 
 		for (DataChangeListener listener : dataChangeListeners) {
 			listener.onDataChanged();
+			
 		}
 		
 	}
@@ -145,5 +144,7 @@ public class DepartmentFormController implements  Initializable {
 		}
 		
 	}
+	
+
 
 }
