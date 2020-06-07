@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import application.Main;
@@ -44,8 +45,17 @@ public class SellerListController implements Initializable, DataChangeListener {
 	private TableColumn<Seller, String> tableColummName;
 
 	@FXML
-	private TableColumn<Seller, Seller> tableColumnEDIT;
+	private TableColumn<Seller, String> tableColummEmail;
 
+	@FXML
+	private TableColumn<Seller, Date> tableColummBirthDate;
+
+	@FXML
+	private TableColumn<Seller, Double> tableColummBaseSalary;
+
+	@FXML
+	private TableColumn<Seller, Seller> tableColumnEDIT;
+	
 	@FXML
 	private TableColumn<Seller, Seller> tableColumnREMOVE;
 
@@ -72,8 +82,13 @@ public class SellerListController implements Initializable, DataChangeListener {
 	}
 
 	private void initializeNodes() {
-		tableColummId.setCellValueFactory(new PropertyValueFactory<>("id"));
-		tableColummName.setCellValueFactory(new PropertyValueFactory<>("name"));
+		tableColummId.setCellValueFactory(new PropertyValueFactory<>("Id"));
+		tableColummName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+		tableColummEmail.setCellValueFactory(new PropertyValueFactory<>("Email"));
+		tableColummBirthDate.setCellValueFactory(new PropertyValueFactory<>("Birthdate"));
+		Utils.formatTableColumnDate(tableColummBirthDate, "dd/MM/yyyy");
+		tableColummBaseSalary.setCellValueFactory(new PropertyValueFactory<>("BaseSalary"));
+		Utils.formatTableColumnDouble(tableColummBaseSalary, 2);
 
 		/* Acompanhar a janela toda */
 		Stage stage = (Stage) Main.getMainScene().getWindow();
