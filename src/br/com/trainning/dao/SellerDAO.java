@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 public class SellerDAO extends ConnectAbstract implements InterfaceSellerDAO {
 
@@ -23,7 +24,7 @@ public class SellerDAO extends ConnectAbstract implements InterfaceSellerDAO {
 		Seller.setId(rs.getInt("Id"));
 		Seller.setName(rs.getString("Name"));
 		Seller.setEmail(rs.getString("Email"));
-		Seller.setBirthdate(rs.getDate("BirthDate"));
+		Seller.setBirthdate(new java.util.Date(rs.getTimestamp("BirthDate").getTime()));
 		Seller.setBaseSalary(rs.getDouble("BaseSalary"));
 		Seller.setDepartment(dep);
 		

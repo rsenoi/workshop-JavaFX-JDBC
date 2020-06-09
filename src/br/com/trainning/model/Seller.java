@@ -49,10 +49,11 @@ public class Seller implements Serializable {
 		Email = email;
 	}
 
+
+
 	public Date getBirthdate() {
 		return Birthdate;
 	}
-
 
 	public Double getBaseSalary() {
 		return BaseSalary;
