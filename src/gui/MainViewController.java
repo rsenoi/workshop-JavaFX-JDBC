@@ -36,7 +36,7 @@ public class MainViewController implements Initializable{
 	public void onMenuItemSellerAction() {
 		loadView("/gui/SellerList.fxml", (SellerListController controller) -> {
 			Connection con = Conexao.abrirConexao();
-			controller.setSellerDAO(new SellerDAO(con));
+			controller.setSellerDAO(new SellerDAO(con), new DepartmentDAO(con));
 			controller.updateTableView();
 		} );
 

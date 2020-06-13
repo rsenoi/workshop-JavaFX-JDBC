@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Date;
+
 
 public class SellerDAO extends ConnectAbstract implements InterfaceSellerDAO {
 
@@ -41,14 +41,6 @@ public class SellerDAO extends ConnectAbstract implements InterfaceSellerDAO {
 		return dep;
 	}
 
-	public void saveOrUpdate(Seller obj) {
-		if( obj.getId() <= 0) {
-			inserir(obj);
-		}
-		else {
-			alterar(obj);
-		}
-	}
 
 	
 	@Override
@@ -286,6 +278,15 @@ public class SellerDAO extends ConnectAbstract implements InterfaceSellerDAO {
 
 		}
 
+	}
+
+	public void saveOrUpdate(Seller obj) {
+		if( obj.getId() <= 0) {
+			inserir(obj);
+		}
+		else {
+			alterar(obj);
+		}
 	}
 
 }

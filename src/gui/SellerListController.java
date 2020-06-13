@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import application.Main;
 import br.com.trainning.dao.DataChangeListener;
+import br.com.trainning.dao.DepartmentDAO;
 import br.com.trainning.dao.SellerDAO;
 import br.com.trainning.model.Seller;
 import gui.util.Alerts;
@@ -34,6 +35,8 @@ import java.util.Optional;
 public class SellerListController implements Initializable, DataChangeListener {
 
 	private SellerDAO service;
+	
+	private DepartmentDAO departmentservice;
 
 	@FXML
 	private TableView<Seller> tableViewSeller;
@@ -71,9 +74,12 @@ public class SellerListController implements Initializable, DataChangeListener {
 		createDialogForm(obj, "/gui/SellerForm.fxml", parentStage);
 	}
 
-	public void setSellerDAO(SellerDAO service) {
+	public void setSellerDAO(SellerDAO service, DepartmentDAO departmentservice) {
 		this.service = service;
+		this.departmentservice = departmentservice;
+
 	}
+
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
